@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dominion Archive</title>
+<style>
+:root{--pbg:#F3EEE3;--pt:#2B2620;--pm:#8C7A4B;--ps:#5A6B7A;--pl:rgba(140,122,75,.35);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--pbg:#1a1610;--pt:#F3EEE3;--ps:#a9b4be}}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--pbg);color:var(--pt);font:14px/1.8 'Batang','Georgia',serif;word-break:break-all;overflow-wrap:anywhere}
+.f{--m:#8C7A4B;--a:#c4a44a;--l:#F3EEE3;--t1:#d4c9b5;--t2:#b0a48e;--b1:#1a1610;--b2:#2B2620}
+.mgmt{--m:#5f8570;--a:#8fb09a;--l:#E8EEE9;--t1:#bac5bd;--t2:#9aa79f;--b1:#111813;--b2:#1a231d}
+.lab{--m:#76668f;--a:#a595c4;--l:#ECE8F2;--t1:#c3bdcf;--t2:#a39dae;--b1:#16131c;--b2:#201b29}
+.gen{--m:#5f7a92;--a:#8fa8bd;--l:#E6ECF1;--t1:#b9c3cc;--t2:#9aa7b3;--b1:#12181d;--b2:#1b242b}
+.wrap{max-width:760px;margin:auto;padding:16px 14px 40px}
+header{text-align:center;border-bottom:2px solid var(--pm);padding:10px 0 12px}
+header a{font:bold 20px Georgia,serif;color:var(--pm);letter-spacing:3px;text-decoration:none}
+header p{margin:4px 0 0;font:italic 11.5px Georgia,serif;color:var(--ps)}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--pm);outline-offset:2px}
+#q{width:100%;margin-top:14px;padding:9px 12px;background:transparent;border:1px solid var(--pm);border-radius:3px;font-size:13px}
+.crumb{margin:14px 0 4px;font-size:12px;color:var(--ps)}
+.crumb button{background:none;border:0;padding:0;color:var(--pm);font-size:12px;text-decoration:underline}
+h3{font:bold 15px Georgia,serif;color:var(--pm);letter-spacing:1px;margin:18px 0 10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.pick{display:block;width:100%;text-align:left;background:transparent;border:2px solid var(--pm);border-radius:3px;padding:14px}
+.pick b{display:block;font:bold 15px Georgia,serif;color:var(--pm)}
+.pick span{font-size:11.5px;color:var(--ps)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{background:transparent;border:1px solid var(--pl);border-radius:2px;padding:2px 10px;font-size:12px;color:var(--pm)}
+.chip.on{background:var(--pm);color:var(--pbg)}
+.card{display:block;text-decoration:none;color:inherit;border:1px solid var(--pl);border-top:3px solid var(--m);border-radius:3px;overflow:hidden;background:var(--b1)}
+.card .th{aspect-ratio:3/4;background-size:cover;background-position:center}
+.card div.t{padding:8px 10px 10px}
+.card b{display:block;font:bold 14px Georgia,serif;color:var(--l)}
+.card span{font-size:11px;color:var(--t2)}
+.empty{color:var(--ps);font-style:italic;padding:18px 0}
+.dos{max-width:560px;margin:14px auto 0;background:linear-gradient(180deg,var(--b1),var(--b2) 50%,var(--b1));border:2px solid var(--m);border-radius:4px;overflow:hidden;box-shadow:0 0 30px rgba(0,0,0,.25);color:var(--t2)}
+.hero{position:relative;aspect-ratio:750/1000;background-size:cover;background-position:center}
+.hero i{position:absolute;inset:35% 0 0;background:linear-gradient(0deg,var(--b1),rgba(0,0,0,0))}
+.badge{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.6);border:1px solid var(--m);border-radius:3px;padding:3px 10px;font-size:10px;color:var(--m);letter-spacing:2px}
+.ttl{position:absolute;left:16px;right:16px;bottom:14px}
+.ttl small{display:block;font-size:10px;letter-spacing:4px;color:var(--a)}
+.ttl h2{margin:2px 0 8px;font:bold 34px/1.1 Georgia,serif;letter-spacing:3px;color:var(--l);text-shadow:0 2px 15px #000}
+.tg{display:flex;flex-wrap:wrap;gap:6px;font-size:11px}
+.tg .r{background:var(--a);color:var(--b1);padding:2px 12px;border-radius:2px;font-weight:bold}
+.tg .s{border:1px solid var(--a);color:var(--a);padding:2px 10px;border-radius:2px}
+.bd{padding:16px 12px}
+.bx{background:rgba(255,255,255,.04);border:1px solid var(--pl);border-top:3px solid var(--m);border-radius:3px;padding:16px 14px;margin-bottom:14px;font-size:12px;line-height:1.9}
+.bx h4{margin:0 0 10px;font:bold 12px Georgia,serif;letter-spacing:3px;color:var(--a)}
+.bx dt{display:inline;color:var(--m);font-weight:bold}.bx dd{display:inline;margin:0;color:var(--t1)}.bx div{margin:0}
+.nm{font:bold 18px Georgia,serif;color:var(--l)}
+.sc{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:8px;margin-bottom:14px}
+.sc .bx{flex:0 0 84%;max-width:360px;scroll-snap-align:start;margin:0;border-top-color:var(--a)}
+.bx p{margin:0 0 8px}.bx p b{display:block;color:var(--a);font-size:11.5px}
+.pr{background:rgba(120,30,30,.1);border-color:rgba(160,60,60,.4);border-top-color:#a03c3c}
+.pr h4{color:#a03c3c}
+.rel{display:flex;gap:10px;align-items:center;text-decoration:none;color:inherit;padding:8px 0;border-top:1px solid var(--pl)}
+.rel:first-of-type{border-top:0}
+.rel .th{flex:0 0 54px;aspect-ratio:3/4;background-size:cover;background-position:center;border:1px solid var(--pl);border-radius:2px}
+.rel b{color:var(--l);font-family:Georgia,serif}.rel em{color:var(--a);font-size:11px;font-style:normal}
+.back{background:none;border:1px solid var(--pm);border-radius:3px;padding:3px 12px;color:var(--pm);font-size:12px}
+body{background-image:radial-gradient(ellipse at 50% -10%,rgba(140,122,75,.16),transparent 55%)}
+header{position:relative}
+header a{font:bold 24px Georgia,serif;letter-spacing:6px;background:linear-gradient(90deg,#8C7A4B,#c4a44a,#8C7A4B);-webkit-background-clip:text;background-clip:text;color:transparent}
+#mb{position:absolute;left:0;top:8px;background:none;border:1px solid var(--pm);border-radius:3px;padding:3px 10px;color:var(--pm);font-size:12px}
+.h0{position:relative;min-height:340px;margin-top:14px;border:2px solid var(--pm);border-radius:3px;overflow:hidden;background-size:cover;background-position:center;display:flex;align-items:flex-end;justify-content:center;text-align:center}
+.h0::before{content:'';position:absolute;inset:0;background:linear-gradient(0deg,var(--pbg) 12%,transparent 75%)}
+.h0>div{position:relative;padding:20px 14px 14px}
+.h0 h1{margin:0;font:bold 38px Georgia,serif;letter-spacing:8px;color:var(--pm)}
+.h0 small{display:block;font:italic 11.5px Georgia,serif;color:var(--ps)}
+.orn{text-align:center;color:var(--pm);margin:14px 0;font-size:12px;letter-spacing:2px}
+.sec{position:relative;margin-top:14px;background:var(--pbg);border:2px solid var(--pm);border-radius:3px;padding:16px 14px;box-shadow:inset 0 0 40px rgba(140,122,75,.1)}
+.sec::after{content:'❦';position:absolute;right:12px;top:10px;color:var(--pm);opacity:.45}
+.rn{display:inline-block;background:var(--pm);color:var(--pbg);font:bold 14.5px Georgia,serif;padding:2px 8px;border-radius:3px;margin-right:8px}
+.st{font:bold 15px Georgia,serif;color:var(--pm);letter-spacing:1px}.sec>i{font-size:11.5px;color:var(--ps);margin-left:4px}
+.sec p{margin:14px 0 0;font-size:13px;line-height:1.95}.sec p b{color:var(--pm)}
+.q{margin-top:12px;background:rgba(90,107,122,.08);border-left:3px solid var(--ps);padding:8px 12px;font-size:12px;color:var(--ps);line-height:1.8}
+.q s{opacity:.55}.bar{background:var(--pt);color:var(--pt);padding:0 30px;border-radius:1px}
+.nt{text-align:right;font-size:10.5px;color:var(--ps);font-style:italic}
+.ls{margin-top:12px;background:rgba(140,122,75,.07);border:1px dashed var(--pl);padding:12px;font-size:12.5px;line-height:1.9}
+.ls>b{display:block;color:var(--pm);margin-bottom:6px}.ls>div{margin-bottom:6px}.ls b{color:var(--pm)}
+.bg{display:inline-block;background:var(--pm);color:var(--pbg);padding:0 8px;border-radius:2px;font-weight:bold;margin-right:4px}
+.sw{text-align:right;font-size:10px;color:var(--pm);margin-top:12px}
+.sc2{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding:6px 2px 8px}
+.lc{flex:0 0 70%;max-width:280px;scroll-snap-align:start;border:1px solid var(--pl);border-top:3px solid var(--pm);border-radius:3px;overflow:hidden;background:rgba(140,122,75,.06)}
+.li{aspect-ratio:var(--ar);background-size:cover;background-position:center;filter:saturate(.85)}
+.lt{padding:8px 10px 12px;font-size:12px;line-height:1.7}.lt b{color:var(--pm);font-size:13.5px}.lt i{color:var(--ps);font-size:11px}
+.card:hover{border-color:var(--a)}.pick:hover{background:var(--pm)}.pick:hover *{color:var(--pbg)}
+#nv{position:fixed;z-index:20;top:0;left:0;bottom:0;width:280px;max-width:84vw;background:var(--pbg);border-right:2px solid var(--pm);padding:calc(16px + env(safe-area-inset-top,0px)) 14px 20px;overflow-y:auto;transform:translateX(-102%);transition:transform .25s;box-shadow:6px 0 30px rgba(0,0,0,.25)}
+#ov{display:none;position:fixed;inset:0;z-index:19;background:rgba(0,0,0,.45)}
+body.nav #nv{transform:none}body.nav #ov{display:block}
+#nv h5{margin:0 0 10px;font:bold 14px Georgia,serif;color:var(--pm);letter-spacing:2px;border-bottom:1px solid var(--pl);padding-bottom:8px}
+.ni{display:flex;justify-content:space-between;width:100%;text-align:left;background:none;border:0;border-bottom:1px dotted var(--pl);padding:8px 4px;font-size:13px;color:var(--pt)}
+.ni:hover{color:var(--pm)}.ni.sub{padding-left:18px;font-size:12px;color:var(--ps)}.ni em{font-style:normal;color:var(--pm);font-size:11px}span.ni.dim{font-style:italic}
+@media(prefers-reduced-motion:reduce){#nv{transition:none}}
+</style></head>
+<body><div class="wrap">
+<header><button id="mb" aria-label="국가 메뉴 열기" aria-expanded="false">☰ 국가</button><a href="#" id="home">DOMINION</a><p>Character Archive · 도미니온 세계관 캐릭터 도감</p><input id="q" type="search" placeholder="이름, 코드네임, 천사, 팀으로 검색" aria-label="검색"></header>
+<main id="app"></main></div><aside id="nv" aria-label="국가 메뉴"></aside><div id="ov"></div>
+<script>
+/* ===== DATA (이 부분만 추가·수정하면 됩니다) ===== */
+const COUNTRIES=[
+ {id:'kr',name:'대한민국',en:'Korea',regions:[{id:'seoul',name:'서울 본부'},{id:'busan',name:'부산 지부'}]},
+ {id:'jp',name:'일본',en:'Japan',regions:[{id:'hq',name:'일본 본부'}]},
+ {id:'cn',name:'중국',en:'China',regions:[]},{id:'fr',name:'프랑스',en:'France',regions:[]},{id:'it',name:'이탈리아',en:'Italy',regions:[]},
+ {id:'us',name:'미국',en:'United States',regions:[]},{id:'uk',name:'영국',en:'United Kingdom',regions:[]}];
+const DEPT={f:'필드팀',mgmt:'관리부',gen:'일반과',lab:'연구소'};
+const CATS=[['S','S급'],['A','A급'],['B','B급'],['C','C급'],['D','D급'],['mgmt','관리부'],['gen','일반과'],['lab','연구소']];
+const IMG='https://cdn.phototourl.com/member/';
+const CH=[
+{id:'zer',c:'kr',r:'seoul',d:'f',rk:'B',code:'ZER',ko:'제르',name:'윤시현',age:'25세 - 3년차',h:'181cm',team:'한국본부 A급 필드팀 (그레이븐 팀)',duty:'소형·중형 악마 토벌, 전장 구속 및 구조 지원',
+ img:IMG+'2026-11-05-c3990dc3-189c-48c6-8209-23451d69eb30.jpg',
+ desc:'자신에 대한 확신이 지나치게 부족해 사소한 실수도 오래 곱씹으며 스스로를 몰아붙이는 성격이다. 실전 감각과 능력은 뛰어나지만 자기불신 때문에 장기간 B급에 머물고 있다.',
+ angel:{n:'Yeiazel',t:'해방형',d:'정신·육체·에너지에 가해진 제약을 끊어내는 해방 계열 천사. 계약자의 의지가 약해질수록 능력의 발현도 불안정해진다.'},
+ ab:[{n:'Dark Shadow',t:'PRIMARY',m:'자신의 그림자를 실체화하여 원하는 형태로 변형',e:'칼날·촉수·방벽 등으로 변형해 공격·구속·방어에 활용',l:'주변의 어둠이 적을수록 범위와 출력이 제한됨'},
+     {n:'Void',t:'SECONDARY',m:'신체를 짧은 시간 반투명한 암흑 상태로 변화',e:'물리 공격과 일부 장애물을 통과해 회피·침투·이탈',l:'지속시간이 짧고 연속 사용이 어려움'}],
+ price:'능력을 사용할수록 체온이 급격히 떨어져 손발의 감각이 둔해지고, 사용 후 한동안 빛과 소리에 대한 감각이 왜곡된다.',
+ rel:[['graven','팀장','#능글맞음 #A급 #카마엘'],['beat','팀원','#장난기 #사교적 #사키엘']]},
+{id:'graven',c:'kr',r:'seoul',d:'f',rk:'A',code:'GRAVEN',ko:'그레이븐',age:'32세',team:'한국본부 A급 필드팀 (그레이븐 팀)',img:IMG+'2026-11-11-1bd67bdc-46f1-47fb-9b9d-1b3c4bd00c79.jpg',
+ desc:'능글맞고 여유로운 A급 팀장.',angel:{n:'Kamael'},rel:[['zer','팀원','#자기혐오 #B급 #예이아젤']]},
+{id:'beat',c:'kr',r:'seoul',d:'f',rk:'B',code:'BEAT',ko:'비트',age:'26세',team:'한국본부 A급 필드팀 (그레이븐 팀)',img:IMG+'2026-11-11-384cd11b-f6ce-46db-bf42-0bfc6656d08f.jpg',
+ desc:'장난기 많고 사교적인 팀원.',angel:{n:'Sakiel'},rel:[['graven','팀장','#능글맞음 #A급 #카마엘']]},
+{id:'setsu',c:'jp',r:'hq',d:'f',rk:'S',code:'SETSU',ko:'세츠',name:'시노노메 레이',age:'33세 - 11년차',h:'183cm',
+ img:IMG+'2026-11-07-2e6fe77f-0645-427c-8f67-88285df15312.jpg',
+ desc:'우아하고 예의 바른 태도로 누구에게나 다정하지만, 속내는 좀처럼 드러내지 않는다. 친절함과 무관심의 경계를 모호하게 유지하며 개인 영역을 침범당하는 것을 싫어한다.',
+ angel:{n:'Kiriel',t:'경계·구분형',d:'안과 밖, 이쪽과 저쪽을 구분하는 경계 계열 천사. 검 형태의 코어를 매개로 계약한다.'},
+ ab:[{n:'Iaigiri: Kasane',t:'PRIMARY',m:'납도 상태에서 검을 한 번 발도',e:'동일한 궤적을 따라 여러 참격이 시간차를 두고 연속 발생',l:'참격 수는 검술과 집중력에 비례하며 재사용에는 재납도가 필요'},
+     {n:'Kenzoku: Kaisō',t:'SECONDARY',m:'다수의 검을 실체화해 공중에 배치하고 개별 조종',e:'형태·크기·수량을 조절해 다방향 동시 공격과 방어',l:'수량이 많을수록 조종의 정밀도가 떨어짐'}],
+ price:'능력을 사용할수록 신체 내부에 균열이 축적되어 피부 아래로 금이 간 흔적이 드러난다. 악화되면 통증과 내부 출혈이 발생하며, 정기적인 안정화 치료로 관리한다.',rel:[]}
+];
+/* ===== TEMPLATE ===== */
+const $=s=>document.querySelector(s),app=$('#app'),S={c:null,r:null,k:null};
+const key=c=>c.d==='f'?c.rk:c.d, byId=id=>CH.find(x=>x.id===id);
+const place=c=>{const o=COUNTRIES.find(x=>x.id===c.c);return o.name+' · '+o.regions.find(x=>x.id===c.r).name};
+const bg=c=>`background-image:url('${c.img}'),linear-gradient(160deg,var(--b2),var(--b1))`;
+const tag=c=>c.d==='f'?c.rk+'급 · '+DEPT.f:DEPT[c.d];
+const card=c=>`<a class="card ${c.d}" href="#c-${c.id}"><div class="th" style="${bg(c)}"></div><div class="t"><b>${c.code}</b><span>${c.ko} · ${tag(c)}</span><br><span>${place(c)}</span></div></a>`;
+const list=a=>a.length?`<div class="grid">${a.map(card).join('')}</div>`:'<p class="empty">등록된 캐릭터가 없습니다. 다른 분류를 선택해 보세요.</p>';
+const row=(k,v)=>v?`<div><dt>${k}:</dt> <dd>${v}</dd></div>`:'';
+function detail(c){
+ const f=c.d==='f',o=COUNTRIES.find(x=>x.id===c.c);
+ const place2=o.regions.find(x=>x.id===c.r).name;
+ return `<button class="back" onclick="location.hash=''">← 목록으로</button>
+ <article class="dos ${c.d}"><div class="hero" style="${bg(c)}"><i></i><span class="badge">CLASSIFIED DOSSIER</span>
+ <div class="ttl"><small>CODE NAME</small><h2>${c.code}</h2><div class="tg"><span class="r">${f?c.rk+'-CLASS':DEPT[c.d]}</span><span class="s">${DEPT[c.d]} · ${place2}</span></div></div></div>
+ <div class="bd"><div class="bx"><h4>PROFILE</h4><dl style="margin:0">${row('이름',c.name||c.ko)}${row('나이',c.age)}${row('신체',c.h)}${row('소속',c.team||DEPT[c.d]+' · '+place2)}${row(f?'담당 임무':'담당 업무',c.duty||c.spec)}</dl><p style="margin:10px 0 0;color:var(--t2)">${c.desc||''}</p></div>
+ ${f&&c.angel?`<div class="bx"><h4>BOUND ANGEL</h4><div class="nm">[ ${c.angel.n} ]</div>${c.angel.t?`<div style="color:var(--m)">[ ${c.angel.t} ]</div>`:''}${c.angel.d?`<p style="margin:8px 0 0">${c.angel.d}</p>`:''}</div>`:''}
+ ${c.ab?`<h4 style="color:var(--a);letter-spacing:3px;font:bold 12px Georgia">ABILITIES</h4><div class="sc">${c.ab.map(a=>`<div class="bx"><div class="nm" style="font-size:16px">[ ${a.n} ]</div><div style="color:var(--m);font-size:10px;margin-bottom:8px">${a.t} ABILITY</div><p><b>발동 방식</b>${a.m}</p><p><b>효과</b>${a.e}</p><p><b>한계</b>${a.l}</p></div>`).join('')}</div>`:''}
+ ${c.price?`<div class="bx pr"><h4>PRICE OF CONTRACT</h4>${c.price}</div>`:''}
+ <div class="bx"><h4>RELATED</h4>${c.rel&&c.rel.length?c.rel.map(([id,rl,tg])=>{const p=byId(id);return p?`<a class="rel" href="#c-${id}"><div class="th ${p.d}" style="${bg(p)}"></div><div><b>${p.code}</b> <em>${rl}</em><br><span style="font-size:11px">${tg}</span></div></a>`:''}).join(''):'<span style="font-style:italic">등록된 연관 인물이 없습니다.</span>'}</div></div></article>`}
+function browse(){
+ const q=$('#q').value.trim().toLowerCase();
+ if(q){const a=CH.filter(c=>[c.code,c.ko,c.name,c.team,c.angel&&c.angel.n].join(' ').toLowerCase().includes(q));return `<h3>검색 결과 ${a.length}건</h3>${list(a)}`}
+ const C=COUNTRIES.find(x=>x.id===S.c),R=C&&C.regions.find(x=>x.id===S.r);
+ let h=`<div class="crumb"><button onclick="go()">전체</button>${C?` › <button onclick="go('${C.id}')">${C.name}</button>`:''}${R?` › ${R.name}`:''}</div>`;
+ if(!C)return world()+`<h3>국가별 캐릭터 도감</h3><div class="grid">${COUNTRIES.map(o=>`<button class="pick" onclick="go('${o.id}')"><b>${o.name}</b><span>${o.en} · ${CH.filter(c=>c.c===o.id).length}명</span></button>`).join('')}</div>`;
+ if(!R)return h+`<h3>${C.name} · 지역 선택</h3><div class="grid">${C.regions.map(r=>`<button class="pick" onclick="go('${C.id}','${r.id}')"><b>${r.name}</b><span>${CH.filter(c=>c.c===C.id&&c.r===r.id).length}명</span></button>`).join('')}</div>`;
+ const inR=CH.filter(c=>c.c===C.id&&c.r===R.id);
+ return h+`<h3>${R.name}</h3><div class="chips"><button class="chip ${S.k?'':'on'}" onclick="go('${C.id}','${R.id}')">전체 ${inR.length}</button>${CATS.map(([k,n])=>`<button class="chip ${S.k===k?'on':''}" onclick="go('${C.id}','${R.id}','${k}')">${n} ${inR.filter(c=>key(c)===k).length}</button>`).join('')}</div><div style="height:14px"></div>${list(S.k?inR.filter(c=>key(c)===S.k):inR)}`}
+function go(c,r,k){closeNav();S.c=c||null;S.r=r||null;S.k=k||null;$('#q').value='';location.hash?location.hash='':render()}
+function render(){
+ const m=location.hash.match(/^#c-(.+)$/),c=m&&byId(m[1]);
+ app.innerHTML=c?detail(c):browse();$('#q').style.display=c?'none':'';scrollTo(0,0)}
+$('#q').addEventListener('input',()=>{if(location.hash)location.hash='';else render()});
+$('#home').addEventListener('click',e=>{e.preventDefault();S.c=S.r=S.k=null;$('#q').value='';location.hash?location.hash='':render()});
+/* ===== 세계관 (원문을 붙여 넣어 수정하세요) ===== */
+const LORE=[
+{n:'Ⅰ',ko:'균열',en:'Rift · Fractura',b:[
+ ['p','1900년 겨울, 전 세계 주요 도시 상공에 동시다발적으로 출현한 시공간의 찢김 현상. 사전 징후 없이 발생하며 평균 지속 시간은 2~6시간이다. 열린 균열을 통해 <b>비정형 적대 개체(이하 ‘악마’)</b>가 유입되었으며 이후 불규칙적으로 재발하고 있다. 폐쇄 조건 역시 일정한 패턴이 확인되지 않는다.'],
+ ['x','발생 원인:','신적 개입 가설 / 차원 마모 이론 / 인과율 파괴 가설'],
+ ['n','비고: 최초 균열 발생 시각은 KST 기준 03:17로 기록됨']]},
+{n:'Ⅱ',ko:'악마',en:'Demon · Dæmonium',b:[
+ ['p','균열을 통해 유입되는 적대 개체의 총칭. 비정형 신체를 가지며 개체마다 외형과 능력이 극도로 상이하다. 공통적으로 <b>강력한 재생력</b>을 보유해 통상 화기로는 무력화가 불가능하고, 어떠한 의사소통도 확인된 바 없다. 인구 밀집 지역을 우선 공격하는 경향이 있다.'],
+ ['p','위협 등급은 신체 규모 및 파괴 반경에 따라 세 단계로 분류한다.'],
+ ['c',[['소형','Minor','반경 50m 이하',IMG+'2026-11-08-fe4558a8-0506-4947-90cb-3b1be02a6870.jpg'],['중형','Median','반경 500m 이하',IMG+'2026-11-08-fb1976a6-0481-4da8-8c92-23b17d3fd2c4.jpg'],['대형','Major','반경 수 km 이상',IMG+'2026-11-08-683680a7-0118-4b99-8b31-d29191e64518.jpg']],55,'832/1216'],
+ ['q','추가 관찰: 균열 발생 후 24시간 이내에 해당 지역의 전자기장 이상이 보고됨.'],
+ ['n','비고: 대형 개체 출현 시 반경 3km 즉시 소개(疏開) 프로토콜 발동']]},
+{n:'Ⅲ',ko:'천사',en:'Angel · Angelus',b:[
+ ['p','물리적 실체를 지니지 않는 초월적 존재. 물질계에 직접 간섭할 수 없으며 오직 <b>인간의 신체를 매개</b>로 삼아야 현세에 개입할 수 있다. 0세대 계약자들의 증언으로 최초 관측되었고, 이후 DOMINION 연구소가 존재를 공식 인정했다.'],
+ ['p','자발적으로 인류를 돕는 것으로 보이나 그 동기를 명확히 밝힌 천사는 없다. 개체마다 성격·언어 습관·목적 의식이 현저히 다르며 상호 간 위계가 존재하는지도 확인되지 않았다.'],
+ ['x','인류 조력 동기:','신의 명령 가설 / 자기보존 가설 / 감정 이입 가설','공식 판정: <b>미상(未詳)</b>'],
+ ['n','비고: 천사 개체 간 직접 대화 사례는 현재까지 0건']]},
+{n:'Ⅳ',ko:'계약',en:'Contract · Pactum Cæleste',b:[
+ ['p','천사가 인간의 신체에 깃들기 위해 맺는 초월적 서약. 반드시 <b>양자의 자발적 동의</b>를 전제로 하며, 강제 계약 사례는 공식적으로 확인된 바 없다.'],
+ ['p','대가는 수명의 일부, 특정 감각의 포기, 겉보기에 없는 경우까지 개체마다 다르다. 그러나 장기 추적 조사에 따르면 <b>대가 없는 계약은 존재하지 않는다.</b> 계약자 본인도 인지하지 못하는 형태로 무언가가 소실되고 있을 가능성이 제기되어 있다.'],
+ ['l','계약 단계 요약',[['1','접촉(Contact) ── 천사가 대상 인간을 선택, 의식 내부에 접근'],['2','제안(Proposal) ── 계약 조건 및 대가의 고지'],['3','수락(Acceptance) ── 인간 측의 자발적 동의'],['4','각인(Inscription) ── 능력 부여 개시'],['5','동기화(Sync) ── 천사와 계약자 간 감각 연결 완성']]],
+ ['q','기밀 주석: 0세대 계약자 중 2명은 계약 해지를 시도한 것으로 알려져 있으나, 그 결과는 <span class="bar">검열됨</span> 처리되어 열람 불가.'],
+ ['n','비고: 기밀 주석의 열람 권한은 S급 이상 계약자 및 DOMINION 이사회 구성원에 한함']]},
+{n:'Ⅴ',ko:'계약자',en:'Contractor · Pactus',b:[
+ ['p','천사와 계약하여 초월적 능력을 부여받은 인간. 능력은 계약한 천사의 속성에 전적으로 의존하며, 동일한 천사와 복수의 인간이 계약한 사례는 <b>단 한 건도 확인되지 않았다.</b>'],
+ ['p','능력의 강도는 개인의 적합도와 동기화율에 따라 극적으로 다르다. 계약자는 <b>D · C · B · A · S</b>의 5개 등급으로 나뉘며 재평가는 반기 1회 실시된다.'],
+ ['l','등급 분류 기준',[['S','단독으로 대형 균열 폐쇄 가능. 국가 전략 자산급'],['A','중형 균열 단독 대응 가능. 소규모 팀 지휘 권한 부여'],['B','소형 균열 대응 가능. 팀 단위 작전 투입'],['C','제한적 능력 발현. 후방 지원 및 보조 임무 수행'],['D','능력 발현 미약. 비전투 업무 배치 또는 훈련 대상']]],
+ ['q','비고: 대한민국 내 S급 계약자는 공식적으로 <b>24인</b>이며 이 중 서울 본부 소속은 6인이다. 신상 정보 일체는 이사회 직속 관리 하에 있으며, 유출 시 즉시 기밀 유출 프로토콜이 발동된다.'],
+ ['n','비고: 계약자 등급은 고정값이 아니며 동기화율 변동에 따라 조정될 수 있음']]},
+{n:'Ⅵ',ko:'DOMINION',en:'도미니온 · Auctoritas Pactorum',b:[
+ ['p','1924년 각국 정부와 국제기구의 합의로 설립된 계약자 관리 기구. 계약자의 발굴, 등록, 훈련, 배치, 감시에 이르는 전 과정을 총괄한다.'],
+ ['p','공식 슬로건은 <b><i>“안전한 힘은 허가된 힘뿐이다(Safe power is sanctioned power).”</i></b> 모든 공문서와 시설 입구, 계약자 신분증에 각인되어 있으며 비인가 계약에 대한 무관용 원칙을 상징한다.'],
+ ['l','조직 구성',[['필드팀','균열 현장 투입 및 악마 토벌을 맡는 실전 부대. B급 이상이 배치되며 출동 명령은 본부 관제실에서 하달된다. <b>S급 팀</b>은 S급 1인 중심의 4인 내외로 중형 이상·대형 악마에 우선 투입되고, <b>A급 팀</b>은 A급이 지휘를 맡아 소형·중형 대응과 일반 출동을 담당한다. 대형 악마 출현 시 인근 팀이 합류해 S급 팀을 지원한다.'],['관리부','필드팀 지원을 담당하는 최대 규모의 부서. 작전팀·유지관리팀·공보팀으로 구성되며 현장 지휘와 통제, 악마 사체 처리, 장비·탐지망 관리, 대외 홍보를 맡는다.'],['일반과','인사·총무·회계·법무 등 조직 전반의 행정과 운영을 담당한다. 비계약자 직원이 대부분이다.'],['연구소','계약 시스템·천사학·악마생태 연구 및 매개체 제작을 담당한다. 계약 직전 천사의 힘을 매개체에 응축하는 유일한 부서이며 기밀 등급이 가장 높다.']]],
+ ['p','각 국가별로 본부가 설치되어 있으며 광역시 지부가 1개씩 존재한다. 서울 본부는 아시아 권역에서 균열 발생 빈도가 가장 높아 인력과 예산 배분에서 우선순위를 받는다.'],
+ ['q','비고: 설립 이전에는 각국 군부 및 민간 조직이 계약자를 독자적으로 운용했다. 복지 체계 정비와 등급별 보수 차등 지급 도입으로 현재는 대부분의 계약자가 자발적으로 등록한다.']]},
+{n:'Ⅶ',ko:'서울 본부 시설 안내',en:'Seoul Headquarters · Facilities',b:[
+ ['p','서울 본부는 기능과 보안 등급에 따라 여러 전용 시설로 분리 운영되며, 각 시설은 독립적인 출입 통제 체계를 갖춘다.'],
+ ['c',[['아스트레아관','행정 · 민원 · 연구 부속','1층 로비·민원실·홍보관, 2-4층 일반과, 5-7층 공보팀, 8-10층 연구소 부속 세미나실과 행정동. <b>유일하게 민간인 출입이 허용되는 건물</b>로 견학과 계약 지원 접수가 이루어진다.',IMG+'2026-11-05-707fb3a0-ede7-45c6-8455-c7c7e3f0ae0b.jpg'],['미카엘타워','작전 · 훈련 · 출동','지하 2층 차량 격납고, 지하 1층 비상선로, 1-3층 상황실·지휘본부, 4-6층 훈련시설, 7-9층 대기실·장비지급실, 10-12층 헬기장. <b>민간인 출입 전면 금지.</b>',IMG+'2026-11-05-721dce2d-cbb0-4694-b9b4-4d0acc124cb8.jpg'],['성소관','의료 · 연구 · 재활','지하 1-2층 연구소, 1-2층 의료시설, 3-4층 입원·재활병동. 계약 후유증과 필드 부상을 전담 치료하며 연구소와 직결된 응급이송통로가 있다.',IMG+'2026-11-05-3bf5dcc1-1e3f-4ea8-9b44-453b0eaf1cf6.jpg'],['안식지구','거주구역','25-40층 규모 15개 동으로 이루어진 요원과 그 가족의 거주구역. 정부 표준 이상의 재난방호 등급을 갖추고 있다.',IMG+'2026-11-05-97e6e610-7676-4a09-8fb5-0936cb1b9cd6.jpg']],80,'4/3'],
+ ['n','비고: 시설별 출입 권한은 소속과 직급, 보안 등급에 따라 차등 적용됨']]}
+];
+const BL={p:x=>`<p>${x}</p>`,q:x=>`<div class="q">${x}</div>`,
+ x:(l,s,e)=>`<div class="q">${l} <s>${s}</s>${e?'<br>'+e:''}</div>`,
+ n:x=>`<p class="nt">── ${x} ──</p>`,
+ l:(h,r)=>`<div class="ls"><b>▸ ${h}</b>${r.map(([a,t])=>`<div><span class="bg">${a}</span> ${t}</div>`).join('')}</div>`,
+ c:(a,w,ar)=>`<div class="sw">옆으로 넘겨보세요 ›</div><div class="sc2">${a.map(([n,e,d,i])=>`<div class="lc" style="flex-basis:${w}%"><div class="li" style="--ar:${ar};background-image:url('${i}'),linear-gradient(160deg,#d6cfc1,#8C7A4B)"></div><div class="lt"><b>${n}</b> <i>${e}</i>${d?`<div>${d}</div>`:''}</div></div>`).join('')}</div>`};
+function world(){
+ return `<div class="h0" style="background-image:url('${IMG}2026-11-05-707fb3a0-ede7-45c6-8455-c7c7e3f0ae0b.jpg'),linear-gradient(160deg,#d6cfc1,#8C7A4B)"><div><h1>DOMINION</h1><small>Encyclopædia of the Rift Age — Abridged Field Edition</small><div class="orn">❦ ─── ◆ ─── ❦</div><small>Compiled under the authority of DOMINION HQ, Seoul · Classification: OPEN-ACCESS (Tier 1 Clearance)</small></div></div><div class="orn">❦ ─── ◆ ─── ❦</div>`+
+ LORE.map(s=>`<section class="sec"><span class="rn">${s.n}</span><span class="st">${s.ko}</span> <i>${s.en}</i>${s.b.map(([t,...a])=>BL[t](...a)).join('')}</section><div class="orn">❦ ─── ◆ ─── ❦</div>`).join('')}
+/* ===== 옆 메뉴 ===== */
+function navBuild(){$('#nv').innerHTML='<h5>국가별 도감</h5><button class="ni" onclick="go()"><b>❦ 세계관 소개</b></button>'+COUNTRIES.map(o=>`<button class="ni" onclick="go('${o.id}')"><b>${o.name}</b><em>${CH.filter(c=>c.c===o.id).length}</em></button>`+(o.regions.length?o.regions.map(r=>`<button class="ni sub" onclick="go('${o.id}','${r.id}')">└ ${r.name}<em>${CH.filter(c=>c.c===o.id&&c.r===r.id).length}</em></button>`).join(''):'<span class="ni sub dim">준비 중</span>')).join('')}
+function openNav(o){document.body.classList.toggle('nav',o);$('#mb').setAttribute('aria-expanded',o)}
+function closeNav(){openNav(false)}
+$('#mb').onclick=()=>openNav(!document.body.classList.contains('nav'));$('#ov').onclick=closeNav;
+addEventListener('keydown',e=>{if(e.key==='Escape')closeNav()});
+navBuild();
+addEventListener('hashchange',render);render();
+</script></body></html>
